@@ -19,10 +19,11 @@ async function assertTest(name: string) {
     `./test/${name}/${name}.ll`,
     { directory: undefined, force: true, verbose: true },
   );
+  
   const result = await exec(
     `deno test ./test/${name}`,
-    { output: OutputMode.StdOut, verbose: true },
+    { output: OutputMode.StdOut },
   );
-  console.log(result);
+
   Assert.assertEquals(result.status.code, 0);
 }
