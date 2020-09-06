@@ -1,7 +1,10 @@
 import * as Assert from "https://deno.land/std@0.63.0/testing/asserts.ts";
 
 import { Token, TToken, mkScanner } from "./scanner.ts";
-import { mkCoordinate, range } from "https://raw.githubusercontent.com/littlelanguages/scanpiler-deno-lib/0.0.1/location.ts";
+import {
+  mkCoordinate,
+  range,
+} from "https://raw.githubusercontent.com/littlelanguages/scanpiler-deno-lib/0.0.1/location.ts";
 
 Deno.test("simple test - empty stream returns an EOS as token", () => {
   const v = mkScanner("").current();
