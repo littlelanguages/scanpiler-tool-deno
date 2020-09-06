@@ -20,8 +20,9 @@ async function assertTest(name: string) {
     { directory: undefined, force: true, verbose: true },
   );
   const result = await exec(
-    `cd ./test/${name} ; deno test --log-level info`,
+    `deno test ./test/${name}`,
     { output: OutputMode.StdOut, verbose: true },
   );
+  console.log(result);
   Assert.assertEquals(result.status.code, 0);
 }
