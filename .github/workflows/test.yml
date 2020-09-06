@@ -21,7 +21,7 @@ jobs:
         uses: denolib/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno-version }}
-      - name: Lint Data.Either
+      - name: Lint scanpiler tool deno
         run: deno fmt --check
       - name: Test scanpiler tool deno
         run: deno test --allow-all mod_test.ts
