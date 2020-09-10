@@ -15,7 +15,7 @@ import {
   dfaForNonNestedBlockComment,
 } from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.0.1/la/la.ts";
 
-import * as PP from "https://raw.githubusercontent.com/littlelanguages/deno-lib-text-prettyprint/0.1.0/mod.ts";
+import * as PP from "https://raw.githubusercontent.com/littlelanguages/deno-lib-text-prettyprint/0.2.0/mod.ts";
 import * as Set from "https://raw.githubusercontent.com/littlelanguages/deno-lib-data-set/0.0.1/mod.ts";
 
 export type CommandOptions = {
