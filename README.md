@@ -82,7 +82,7 @@ Check https://raw.githubusercontent.com/littlelanguages/scanpiler-cli/main/mod.t
 
 This is the downloading of all the libraries that collectively make up the CLI.  Note that the CLI runs silently so it will give you no visual feedback if the source file is present and contains no syntactic or logical errors.
 
-Hsving succesfully run the CLI a single file has been created - `scanner.ts`.  Looking through this file there are a couple of things that are worth noting:
+Having succesfully run the CLI a single file has been created - `scanner.ts`.  Looking through this file there are a couple of things that are worth noting:
 
 - An enumeration called `TToken` listing all of the tokens that were defined in `simpleC.ll`.  These are
 
