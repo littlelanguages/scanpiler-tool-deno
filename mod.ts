@@ -1,5 +1,6 @@
 import * as Path from "https://deno.land/std@0.63.0/path/mod.ts";
 import { translate } from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.1.0/parser/dynamic.ts";
+import * as Errors from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.1.0/parser/errors.ts";
 import {
   FA,
   Node,
@@ -39,10 +40,13 @@ export function denoCommand(
     const src = decoder.decode(Deno.readFileSync(fs.sourceFileName()));
     const parseResult = translate(src);
 
-    return parseResult.either((e) => {
-      console.log(e);
-      return Promise.resolve();
-    }, (definition) => {
+    return parseResult.either((es) =>
+      PP.render(
+        PP.vcat(
+          es.map((e) => PP.hcat(["Error: ", Errors.asDoc(e)])).concat(PP.blank),
+        ),
+        Deno.stdout,
+      ), (definition) => {
       if (options.verbose) {
         console.log(`Writing scanner.ts`);
       }
