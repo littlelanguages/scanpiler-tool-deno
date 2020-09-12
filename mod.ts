@@ -161,7 +161,7 @@ function emitStates(
                   dfa.endNodes.has(node.id) &&
                     !dfa.endNodes.has(transition[1].id)
                     ? `this.markBacktrackPoint(${dfa.endNodes.get(node.id)});`
-                    : PP.blank,
+                    : PP.empty,
                   (node.id == 0 && options.markForState0)
                     ? "this.markAndNextChar();"
                     : "this.nextChar();",
