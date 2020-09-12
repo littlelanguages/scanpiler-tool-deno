@@ -55,7 +55,7 @@ export function denoCommand(
 
 function writeScanner(fileName: string, definition: Definition): Promise<void> {
   const scannerDoc = PP.vcat([
-    'import * as AbstractScanner from "https://raw.githubusercontent.com/littlelanguages/scanpiler-deno-lib/0.0.1/abstract-scanner.ts";',
+    'import * as AbstractScanner from "https://raw.githubusercontent.com/littlelanguages/scanpiler-deno-lib/0.1.0/abstract-scanner.ts";',
     PP.blank,
     "export type Token = AbstractScanner.Token<TToken>;",
     PP.blank,
