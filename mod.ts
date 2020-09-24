@@ -33,7 +33,6 @@ export function denoCommand(
 
   if (
     options.force ||
-    fs.sourceFileDateTime() > fs.targetFileDateTime(["token", ".ts"]) ||
     fs.sourceFileDateTime() > fs.targetFileDateTime(["scanner", ".ts"])
   ) {
     const decoder = new TextDecoder("utf-8");
