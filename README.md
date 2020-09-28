@@ -112,7 +112,7 @@ export enum TToken {
 So let's give the scanner a run.  Create the file `show.ts` in the same directory where `scanner.ts` is located with the following content.
 
 ```ts
-iimport { mkScanner, TToken } from "./scanner.ts";
+import { mkScanner, TToken } from "./scanner.ts";
 
 const scanner = mkScanner("if else 123 hello");
 
