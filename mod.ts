@@ -1,23 +1,19 @@
-import * as Path from "https://deno.land/std@0.63.0/path/mod.ts";
-import { translate } from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.1/parser/dynamic.ts";
-import * as Errors from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.1/parser/errors.ts";
+import * as Path from "https://deno.land/std@0.71.0/path/mod.ts";
 import {
-  FA,
-  Node,
-} from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.1/la/fa.ts";
-import {
-  Definition,
   BlockComment,
+  Definition,
+  FA,
   LineComment,
-} from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.1/la/definition.ts";
-import {
-  dfaForTopLevel,
+  Node,
+  asDoc,
   dfaForNestedBlockComment,
   dfaForNonNestedBlockComment,
-} from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.1/la/la.ts";
+  dfaForTopLevel,
+  translate,
+} from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.2/mod.ts";
 
-import * as PP from "https://raw.githubusercontent.com/littlelanguages/deno-lib-text-prettyprint/0.3.0/mod.ts";
-import * as Set from "https://raw.githubusercontent.com/littlelanguages/deno-lib-data-set/0.0.1/mod.ts";
+import * as PP from "https://raw.githubusercontent.com/littlelanguages/deno-lib-text-prettyprint/0.3.1/mod.ts";
+import * as Set from "https://raw.githubusercontent.com/littlelanguages/deno-lib-data-set/0.1.0/mod.ts";
 
 export type CommandOptions = {
   directory: string | undefined;
@@ -42,7 +38,7 @@ export function denoCommand(
     return parseResult.either((es) =>
       PP.render(
         PP.vcat(
-          es.map((e) => PP.hcat(["Error: ", Errors.asDoc(e)])).concat(PP.blank),
+          es.map((e) => PP.hcat(["Error: ", asDoc(e)])).concat(PP.blank),
         ),
         Deno.stdout,
       ), (definition) => {
