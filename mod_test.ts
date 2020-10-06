@@ -1,5 +1,5 @@
 import * as Assert from "https://deno.land/std@0.71.0/testing/asserts.ts";
-import { OutputMode, exec } from "https://deno.land/x/exec@0.0.5/mod.ts";
+import { exec, OutputMode } from "https://deno.land/x/exec@0.0.5/mod.ts";
 
 import { denoCommand } from "./mod.ts";
 
@@ -21,7 +21,7 @@ async function assertTest(name: string) {
   );
 
   const result = await exec(
-    `deno test ./test/${name}`,
+    `deno test ./test/${name}/scanner_t.ts`,
     { output: OutputMode.StdOut },
   );
 

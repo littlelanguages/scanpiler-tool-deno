@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.63.0/testing/asserts.ts";
-import { Token, TToken, mkScanner } from "./scanner.ts";
+import { mkScanner, Token, TToken } from "./scanner.ts";
 import {
   mkCoordinate,
   range,

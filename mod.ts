@@ -1,14 +1,14 @@
 import * as Path from "https://deno.land/std@0.71.0/path/mod.ts";
 import {
+  asDoc,
   BlockComment,
   Definition,
-  FA,
-  LineComment,
-  Node,
-  asDoc,
   dfaForNestedBlockComment,
   dfaForNonNestedBlockComment,
   dfaForTopLevel,
+  FA,
+  LineComment,
+  Node,
   translate,
 } from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.2/mod.ts";
 
