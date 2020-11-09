@@ -17,7 +17,7 @@ function test(name: string) {
 async function assertTest(name: string) {
   await denoCommand(
     `./test/${name}/${name}.ll`,
-    { directory: undefined, force: true, verbose: true },
+    { directory: undefined, force: false, verbose: true },
   );
 
   const result = await exec(
