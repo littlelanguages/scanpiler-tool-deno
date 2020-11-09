@@ -1,4 +1,4 @@
-import * as Path from "https://deno.land/std@0.71.0/path/mod.ts";
+import * as Path from "https://deno.land/std@0.76.0/path/mod.ts";
 import {
   asDoc,
   BlockComment,
@@ -10,10 +10,10 @@ import {
   LineComment,
   Node,
   translate,
-} from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.2.2/mod.ts";
+} from "https://raw.githubusercontent.com/littlelanguages/scanpiler/0.3.0/mod.ts";
 
-import * as PP from "https://raw.githubusercontent.com/littlelanguages/deno-lib-text-prettyprint/0.3.1/mod.ts";
-import * as Set from "https://raw.githubusercontent.com/littlelanguages/deno-lib-data-set/0.1.0/mod.ts";
+import * as PP from "https://raw.githubusercontent.com/littlelanguages/deno-lib-text-prettyprint/0.3.2/mod.ts";
+import * as Set from "https://raw.githubusercontent.com/littlelanguages/deno-lib-data-set/0.1.1/mod.ts";
 
 export type CommandOptions = {
   directory: string | undefined;
@@ -57,7 +57,7 @@ export function writeScanner(
   definition: Definition,
 ): Promise<void> {
   const scannerDoc = PP.vcat([
-    'import * as AbstractScanner from "https://raw.githubusercontent.com/littlelanguages/scanpiler-deno-lib/0.1.0/abstract-scanner.ts";',
+    'import * as AbstractScanner from "https://raw.githubusercontent.com/littlelanguages/scanpiler-deno-lib/0.1.1/abstract-scanner.ts";',
     PP.blank,
     "export type Token = AbstractScanner.Token<TToken>;",
     PP.blank,
@@ -69,7 +69,7 @@ export function writeScanner(
       PP.blank,
       "next() {",
       nestvcat([
-        "if (this.currentToken[0] != TToken.EOS) {",
+        "if (this.currentToken[0] !== TToken.EOS) {",
         nestvcat([
           `while (${writeInSet("this.nextCh", definition.whitespace)}) {`,
           nest("this.nextChar();"),
@@ -147,12 +147,12 @@ function emitStates(
     PP.vcat([
       `case ${node.id}: {`,
       nestvcat(
-        node.transitions.length == 0
+        node.transitions.length === 0
           ? options.emitEnd(definition, dfa, node)
           : [
             PP.vcat(
               node.transitions.flatMap((transition, idx) => [
-                `${idx == 0 ? "if " : "} else if "}(${
+                `${idx === 0 ? "if " : "} else if "}(${
                   writeInSet("this.nextCh", transition[0])
                 }) {`,
                 nestvcat([
@@ -160,7 +160,7 @@ function emitStates(
                     !dfa.endNodes.has(transition[1].id)
                     ? `this.markBacktrackPoint(${dfa.endNodes.get(node.id)});`
                     : PP.empty,
-                  (node.id == 0 && options.markForState0)
+                  (node.id === 0 && options.markForState0)
                     ? "this.markAndNextChar();"
                     : "this.nextChar();",
                   `${options.stateVariable} = ${transition[1].id};`,
@@ -185,7 +185,7 @@ function emitTopLevelEndState(
 ): Array<PP.Doc | string> {
   const finalToken: number | undefined = dfa.endNodes.get(node.id);
 
-  if (finalToken != undefined && finalToken > definition.tokens.length) {
+  if (finalToken !== undefined && finalToken > definition.tokens.length) {
     const comment =
       definition.comments[finalToken - definition.tokens.length - 2];
 
@@ -217,12 +217,12 @@ function emitTopLevelEndState(
     } else {
       return [];
     }
-  } else if (finalToken != undefined) {
+  } else if (finalToken !== undefined) {
     return [
       `this.setToken(${finalToken});`,
       "return;",
     ];
-  } else if (node.id == 0) {
+  } else if (node.id === 0) {
     return [
       "this.markAndNextChar();",
       "this.attemptBacktrackOtherwise(TToken.ERROR);",
@@ -243,17 +243,17 @@ function emitNestedCommentEndState(
 ): Array<PP.Doc | string> {
   const finalToken: number | undefined = dfa.endNodes.get(node.id);
 
-  if (finalToken == undefined) {
+  if (finalToken === undefined) {
     return [
       "this.attemptBacktrackOtherwise(TToken.ERROR);",
       "return;",
     ];
-  } else if (finalToken == 0) {
+  } else if (finalToken === 0) {
     return [
       "nstate = 0;",
       "break;",
     ];
-  } else if (finalToken == 1) {
+  } else if (finalToken === 1) {
     return [
       "nesting += 1;",
       "nstate = 0;",
@@ -262,7 +262,7 @@ function emitNestedCommentEndState(
   } else {
     return [
       "nesting -= 1;",
-      "if (nesting == 0) {",
+      "if (nesting === 0) {",
       nestvcat([
         "this.next();",
         "return;",
@@ -284,12 +284,12 @@ function emitNonNestedCommentEndState(
 ): Array<PP.Doc | string> {
   const finalToken: number | undefined = dfa.endNodes.get(node.id);
 
-  if (finalToken == undefined) {
+  if (finalToken === undefined) {
     return [
       "this.attemptBacktrackOtherwise(TToken.ERROR);",
       "return;",
     ];
-  } else if (finalToken == 0) {
+  } else if (finalToken === 0) {
     return [
       "nstate = 0;",
       "break;",
@@ -316,7 +316,7 @@ function writeInSet(selector: string, s: Set<number>): string {
     : Set.asRanges(s).map((r) =>
       (r instanceof Array)
         ? `${r[0]} <= ${selector} && ${selector} <= ${r[1]}`
-        : `${selector} == ${r}`
+        : `${selector} === ${r}`
     ).join(" || ");
 }
 
@@ -327,7 +327,7 @@ class FS {
 
   constructor(srcFileName: string, options: CommandOptions) {
     this.sourceFile = Path.parse(srcFileName);
-    if (this.sourceFile.ext == undefined) {
+    if (this.sourceFile.ext === undefined) {
       this.sourceFile.ext = ".ll";
     }
     this.options = options;
@@ -338,7 +338,7 @@ class FS {
   }
 
   sourceFileDateTime(): number {
-    if (this.sourceFileStat == undefined) {
+    if (this.sourceFileStat === undefined) {
       this.sourceFileStat = Deno.lstatSync(this.sourceFileName());
     }
 
