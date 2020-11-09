@@ -182,3 +182,20 @@ deno run --allow-read --allow-write "https://raw.githubusercontent.com/littlelan
 Now you will see that the files `simpleC-dfa.dot` and `simpleC-nfa.dot` have been silently created.  The NFA is a intermediate representation used during scanner generation so it is more for interest rather than being helpful in understanding the internals of `next`.  The DFA however is the useful piece.
 
 ![simpleC DFA](./.doc/simpleC-dfa.svg)
+
+## Building Source
+
+The directory `~/.devcontainer` contains a Dockerfile used by [Visual Studio Code](https://code.visualstudio.com) to issolate the editor and build tools from being installed on the developer's workstation.
+
+The Dockerfile is straightforward with the interesting piece being [entr](https://github.com/eradman/entr/) which is used by the `etl.sh` to run `test.sh` whenever a source file has changed.
+
+## Scripts
+
+Two script can be found inside `~/.bin`
+
+| Name   | Purpose |
+|--------|----------------------------------|
+| etl.sh | Runs an edit-test-loop - loops indefinately running all of the tests whenever a source file has changed. |
+| test.sh | Runs lint on the source code and executes the automated tests. |
+
+These scripts must be run out of the project's root directory which, when using [Visual Studio Code](https://code.visualstudio.com), is done using a shell inside the container.
